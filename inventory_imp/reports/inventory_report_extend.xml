@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template inherit_id="stock.report_picking" id="inventory_imp_extend">
+        <xpath expr="//table/thead/tr" position="inside">
+            <th name="th_imp_tax">
+                External Ref.
+            </th>
+
+        </xpath>
+        <xpath expr="//table/tbody/tr" position="inside">
+            <td t-esc="ml.move_id.customs_id" string="External Ref"/>
+
+        </xpath>
+    </template>
+</odoo>
