@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View for Absent Report -->
+    <record id="view_hr_employee_absent_report_form" model="ir.ui.view">
+        <field name="name">hr.employee.absent.report.form</field>
+        <field name="model">hr.employee.absent.report</field>
+        <field name="arch" type="xml">
+            <form string="Employee Absent Report">
+
+                    <header>
+                        <button name="refresh_absences" type="object" icon="fa-refresh" string="Update Listing" class="oe_highlight"/>
+                        <button name="apply_to_payroll" type="object" invisible="state != 'draft'" icon="fa-refresh" string="Apply to Paryoll" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"  statusbar_visible="draft,locked"/>
+                    </header>
+                <sheet>
+                    <group col="2">
+                    <group>
+                        <field name="name"/>
+                        <field name="start_date" required="1"/>
+                        <field name="end_date" required="1"/>
+<!--                        <field name="status" readonly="1"/>-->
+                    </group>
+                    <group>
+                        <field name="total_absence_hours" readonly="1"/>
+                        <field name="total_deduction"/>
+                        <field name="monthly_working_hours"/>
+                    </group>
+                    <group>
+                        <field name="duplicate_employees_text"/>
+                    </group>
+                    </group>
+                    <notebook>
+                        <page string="Absence Penalty Details">
+                            <field name="absent_ids">
+                                <tree string="Absence Records" editable="bottom">
+                                    <field name="employee_id"/>
+                                    <field name="absence_date"/>
+                                    <field name="absence_days"/>
+                                    <field name="absence_hours"/>
+                                    <field name="absence_minutes"/>
+                                    <field name="total_missed_hours"/>
+                                    <field name="total_deduction"/>
+                                </tree>
+                            </field>
+                            <!-- Overtime detail -->
+                            <separator string="Overtime Details"/>
+                            <field name="overtime_ids">
+                                <tree string="Overtime Records" editable="bottom">
+                                    <field name="employee_id"/>
+                                    <field name="payroll_date"/>
+                                    <field name="ot_hrs_normal"/>
+                                    <field name="ot_hrs_night"/>
+                                    <field name="ot_hrs_weekend"/>
+                                    <field name="ot_hrs_holiday"/>
+
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View for Absent Report -->
+    <record id="view_hr_employee_absent_report_tree" model="ir.ui.view">
+        <field name="name">hr.employee.absent.report.tree</field>
+        <field name="model">hr.employee.absent.report</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Absent Reports">
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"/>
+                <field name="total_absence_hours"/>
+                <field name="total_deduction"/>
+
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for Absent Reports -->
+    <record id="action_hr_employee_absent_report" model="ir.actions.act_window">
+        <field name="name">Employee Absence Reports</field>
+        <field name="res_model">hr.employee.absent.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to create a new Employee Absence Report.</p>
+        </field>
+    </record>
+
+    <!-- Menu Item for Absence Reports -->
+    <menuitem id="menu_hr_employee_absent_report"
+              name="Employee Absence Reports"
+              parent="bk_attendance_penalty_ot.menu_hr_employee_absence_attendance"
+              action="action_hr_employee_absent_report"
+              sequence="3"/>
+</odoo>

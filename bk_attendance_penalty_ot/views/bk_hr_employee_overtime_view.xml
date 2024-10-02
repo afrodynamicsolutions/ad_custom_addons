@@ -1,0 +1,60 @@
+
+<odoo>
+    <!-- Form View for Employee Absence -->
+    <record id="view_hr_employee_overtime_form" model="ir.ui.view">
+        <field name="name">hr.employee.overtime.form</field>
+        <field name="model">hr.employee.overtime</field>
+        <field name="arch" type="xml">
+            <form string="Employee Absence">
+                <sheet>
+                    <group>
+                        <field name="employee_id" required="1"/>
+                        <field name="payroll_date" required="1"/>
+                    </group>
+                    <group>
+                        <field name="ot_hrs_normal"/>
+                        <field name="ot_hrs_night"/>
+                        <field name="ot_hrs_weekend"/>
+                        <field name="ot_hrs_holiday"/>
+                    </group>
+                    <group>
+                        <field name="ot_report_id" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View for Employee Absence -->
+    <record id="view_hr_employee_overtime_tree" model="ir.ui.view">
+        <field name="name">hr.employee.overtime.tree</field>
+        <field name="model">hr.employee.overtime</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Overtime Records">
+                <field name="employee_id"/>
+                <field name="payroll_date"/>
+                <field name="ot_hrs_normal"/>
+                <field name="ot_hrs_night"/>
+                <field name="ot_hrs_weekend"/>
+                <field name="ot_hrs_holiday"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for Absence Records -->
+    <record id="action_hr_employee_overtime" model="ir.actions.act_window">
+        <field name="name">Employee Overtime</field>
+        <field name="res_model">hr.employee.overtime</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to record employee absences.</p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_hr_employee_overtime"
+              name="Employee Overtime"
+              parent="menu_hr_employee_absence_attendance"
+              action="action_hr_employee_overtime"
+              sequence="2"/>
+</odoo>

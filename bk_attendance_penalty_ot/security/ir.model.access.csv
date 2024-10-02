@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bk_hr_employee_attendance,hr.employee.absence,model_hr_employee_absence,hr.group_hr_user,1,1,1,1
+access_bk_hr_employee_attendance_report,hr.employee.absent.report,model_hr_employee_absent_report,hr.group_hr_user,1,1,1,1
+access_bk_hr_eployee_overtime,hr.employee.overtime,model_hr_employee_overtime,hr.group_hr_user,1,1,1,1
