@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="payslip_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div>
+
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="container-fluid d-flex justify-content-center align-items-center mb-3">
+                            <div >
+                           <h2><t t-esc="doc.name"/></h2>
+                        <h6>From : <t t-esc="doc.date_start"/></h6>
+                            <h6>To : <t t-esc="doc.date_end"/></h6>
+                                </div>
+                        </div>
+                        <h5>Pay Slips</h5>
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Bank Account</th>
+                                    <th scope="col">Net Pay</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="total_pay" t-value="0"/>
+                                <t t-foreach="payslips" t-as="slip">
+                                   
+                                    <t t-if="slip.state == 'done'">
+                                        <tr>
+                                            <th scope="row">
+                                                <t t-esc="slip_index+1"/>
+                                            </th>
+                                            <td>
+                                                <t t-esc="slip.employee_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="slip.employee_id.bank_account_id.acc_number"/>
+                                            </td>
+                                            <t t-foreach="slip.line_ids" t-as="rule">
+                                                <t t-if="rule.category_id.name =='Net'">
+                                                    <td>
+                                                        <t t-esc="'{:,}'.format(rule.total)"/>
+                                                    </td>
+                                                  
+                                                    <t t-set="total_pay" t-value="total_pay + rule.total"/>
+                                                </t>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                            </tbody>
+                        </table>
+                          <div class="container-fluid d-flex lign-items-start">
+                            <h5>
+                                <strong>Total: </strong><t t-esc="doc.create_uid.company_id.currency_id.amount_to_text(total_pay)"/>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="container-fluid d-flex align-items-end">
+
+                            <h5><strong>Total: </strong> <t t-esc="'{:,.2f}'.format(total_pay)"/></h5>
+
+
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="container" style="page-break-inside: avoid">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>Prepared By</h5>
+                                    <br/>
+                                    <br/>
+                                    <p>Signature: ____________________________</p>
+                                    <p>Date: ____________________________</p>
+                                    <p>Name: ____________________________</p>
+                                </div>
+                                <div class="w-50"/>
+                                <div>
+                                    <h5>Authorized By</h5>
+                                    <br/>
+                                    <br/>
+                                    <p>Signature: ____________________________</p>
+                                    <p>Date: ____________________________</p>
+                                    <p>Sign: ____________________________</p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+                </div>
+            </t>
+        </t>
+    </template>
+    <record id="action_print_batch_payslips" model="ir.actions.report">
+        <field name="name">Print Pay Slips</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">payslips_print.payslip_report</field>
+        <field name="report_file">payslips_print.payslip_report</field>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
