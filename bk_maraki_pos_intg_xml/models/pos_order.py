@@ -13,6 +13,17 @@ class PosOrder(models.Model):
     xml_file = fields.Binary('Invoice XML File', readonly=True)
     # xml_filename = fields.Char('XML Filename')
 
+    def _convert_to_base_currency(self, amount):
+        price = 0.0
+        for order in self:
+            if order.company_id.currency_id != order.currency_id and order.currency_rate:
+                price = order.currency_id.round(amount / order.currency_rate)
+            else:
+                price = amount
+        # print(f"Here converted balance {amount}")
+        # print(f"Here converted balance {price}")
+        return price
+
     def action_pos_order_paid(self):
         result = super(PosOrder, self).action_pos_order_paid()
         pos_config = self.env['bk.pos.xml_dump'].search([
@@ -27,11 +38,9 @@ class PosOrder(models.Model):
         #             path_list.append(line.path)
 
         if len(pos_config.ids): # No the path as auto download is enabled
-
             self.generate_invoice_xml(path_list)
         else:
             _logger.warning("No valid paths found for XML dumping.")
-
         return result
 
     def generate_invoice_xml(self, address_line):
@@ -47,16 +56,25 @@ class PosOrder(models.Model):
                 etree.SubElement(root, "Customer_Name").text = order.partner_id.name or "Walking Customer"
                 etree.SubElement(root, "Customer_TIN").text = order.partner_id.vat or ""
                 etree.SubElement(root, "Payment_Type").text = 'Cash'
-                etree.SubElement(root, "Invoice_DiscOrAdd_Amount").text = "{:.2f}".format(
-                    order.amount_total - sum(line.price_subtotal for line in order.lines))
+                # compute
+                #TODO amount total has to convert to base currecny and the service charge amount
 
+                # etree.SubElement(root, "Invoice_DiscOrAdd_Amount").text = "{:.2f}".format(
+                #     order.amount_total - sum(line.price_subtotal for line in order.lines))
+                etree.SubElement(root, "Invoice_DiscOrAdd_Amount").text = "0.00"
                 for line in order.lines:
+                    price = 0.0
+                    if order.company_id.currency_id != order.currency_id and order.currency_rate:
+                        price = line.currency_id.round(line.price_unit / order.currency_rate)
+                    else:
+                        price = line.price_unit
+                    # exchange currency
                     item = etree.SubElement(root, "Line_Items")
                     etree.SubElement(item, "Item_ID").text = line.product_id.barcode or ""
                     etree.SubElement(item, "Item_Description").text = line.product_id.name
                     etree.SubElement(item, "Item_Quantity").text = str(line.qty)
                     etree.SubElement(item, "Item_UOM").text = line.product_id.uom_id.name
-                    etree.SubElement(item, "Item_Unit_Price").text = "{:.2f}".format(line.price_unit)
+                    etree.SubElement(item, "Item_Unit_Price").text = "{:.2f}".format(price)
                     etree.SubElement(item, "Item_Tax_Percent").text = "{:.2f}".format(
                         sum(t.amount for t in line.tax_ids))
                     etree.SubElement(item, "Item_DiscOrAdd_Amount").text = "{:.2f}".format(line.discount or 0.0)
