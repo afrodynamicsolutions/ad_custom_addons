@@ -64,17 +64,20 @@ class PosOrder(models.Model):
                 etree.SubElement(root, "Invoice_DiscOrAdd_Amount").text = "0.00"
                 for line in order.lines:
                     price = 0.0
-                    if order.company_id.currency_id != order.currency_id and order.currency_rate:
-                        price = line.currency_id.round(line.price_unit / order.currency_rate)
-                    else:
-                        price = line.price_unit
+                    """
+                    If the invoice is in local currency 
+                    """
+                    # if order.company_id.currency_id != order.currency_id and order.currency_rate:
+                    #     price = line.currency_id.round(line.price_unit / order.currency_rate)
+                    # else:
+                    #     price = line.price_unit
                     # exchange currency
                     item = etree.SubElement(root, "Line_Items")
                     etree.SubElement(item, "Item_ID").text = line.product_id.barcode or ""
                     etree.SubElement(item, "Item_Description").text = line.product_id.name
                     etree.SubElement(item, "Item_Quantity").text = str(line.qty)
                     etree.SubElement(item, "Item_UOM").text = line.product_id.uom_id.name
-                    etree.SubElement(item, "Item_Unit_Price").text = "{:.2f}".format(price)
+                    etree.SubElement(item, "Item_Unit_Price").text = "{:.2f}".format(line.price)
                     etree.SubElement(item, "Item_Tax_Percent").text = "{:.2f}".format(
                         sum(t.amount for t in line.tax_ids))
                     etree.SubElement(item, "Item_DiscOrAdd_Amount").text = "{:.2f}".format(line.discount or 0.0)
