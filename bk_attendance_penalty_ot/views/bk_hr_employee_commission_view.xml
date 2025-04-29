@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_hr_sales_commission_form" model="ir.ui.view">
+        <field name="name">bk.sales.commission.form</field>
+        <field name="model">bk.sales.commission</field>
+        <field name="arch" type="xml">
+            <form string="Sales Commission">
+                <sheet>
+
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="remark"/>
+                        <field name="commission_date"/>
+                        <field name="total_sales"/>
+                        <field name="commission_rate"/>
+                        <field name="commission_amount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_sales_commission_tree" model="ir.ui.view">
+        <field name="name">bk.sales.commission.tree</field>
+        <field name="model">bk.sales.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Commission">
+                <field name="employee_id"/>
+                <field name="commission_date"/>
+                <field name="total_sales"/>
+                <field name="commission_rate"/>
+                <field name="commission_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_hr_employee_commission" model="ir.actions.act_window">
+        <field name="name">Employee Commission</field>
+        <field name="res_model">bk.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to create a new Employee Commission.</p>
+        </field>
+    </record>
+
+    <!-- Menu Item for Absence Reports -->
+    <menuitem id="menu_hr_employee_commission"
+              name="Commission"
+              parent="menu_hr_employee_absent_report_separator"
+              action="action_hr_employee_commission"
+              sequence="3"/>
+
+    <record id="view_bk_sales_commission_config_form" model="ir.ui.view">
+        <field name="name">bk.sales.commission.config.form</field>
+        <field name="model">bk.sales.commission.config</field>
+        <field name="arch" type="xml">
+            <form string="Sales Commission Configuration">
+                <header>
+                        <button name="generate_commission"   type="object"    string="Generate Payout"  class="oe_highlight fa fa-cogs"/>
+                        <button name="regenerate_commission"   type="object"   string="Recalculate"    class="fa fa-refresh"/>
+                        <button name="clear_commission_list"   type="object"   string="Clear Commission" class="oe_highlight"
+                        help="To delete generated commission list"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" string="Reference" placeholder="Sales of ....."/>
+                        <field name="pay_date"/>
+                    </group>
+
+                    <group col="4">
+                        <field name="department_id"/>
+                        <field name="commission_rate"/>
+                        <field name="sales_amount"/>
+                        <field name="included_employees" widget="many2many_tags"/>
+                        <field name="excluded_employees" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="Commission Detail">
+                            <field name="employee_list_ids">
+                                <tree string="Detail" editable="bottom">
+                                    <field name="employee_id"/>
+                                    <field name="department_id"/>
+                                    <field name="remark"/>
+                                    <field name="commission_rate"/>
+                                    <field name="commission_date"/>
+                                    <field name="commission_amount"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+
+    </record>
+
+    <record id="view_bk_sales_commission_config_tree" model="ir.ui.view">
+        <field name="name">bk.sales.commission.config.tree</field>
+        <field name="model">bk.sales.commission.config</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Commission Configurations">
+                <field name="department_id"/>
+                <field name="commission_rate"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_bk_employee_commission_config" model="ir.actions.act_window">
+        <field name="name">Employee Commission</field>
+        <field name="res_model">bk.sales.commission.config</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to create a new Employee Commission.</p>
+        </field>
+    </record>
+
+    <!-- Menu Item for Absence Reports -->
+    <menuitem id="menu_hr_employee_comssion_confgi"
+              name="Commission Rates"
+              parent="menu_hr_employee_absent_report_separator"
+              action="action_bk_employee_commission_config"
+              sequence="3"/>
+
+</odoo>
