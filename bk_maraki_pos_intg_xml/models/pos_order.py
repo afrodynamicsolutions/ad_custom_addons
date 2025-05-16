@@ -77,7 +77,7 @@ class PosOrder(models.Model):
                     etree.SubElement(item, "Item_Description").text = line.product_id.name
                     etree.SubElement(item, "Item_Quantity").text = str(line.qty)
                     etree.SubElement(item, "Item_UOM").text = line.product_id.uom_id.name
-                    etree.SubElement(item, "Item_Unit_Price").text = "{:.2f}".format(line.price)
+                    etree.SubElement(item, "Item_Unit_Price").text = "{:.2f}".format(line.price_unit)
                     etree.SubElement(item, "Item_Tax_Percent").text = "{:.2f}".format(
                         sum(t.amount for t in line.tax_ids))
                     etree.SubElement(item, "Item_DiscOrAdd_Amount").text = "{:.2f}".format(line.discount or 0.0)
@@ -107,7 +107,5 @@ class PosOrder(models.Model):
                     'xml_file': base64.b64encode(xml_str),
                     # 'xml_filename': xml_filename
                 })
-
-
             except Exception as e:
                 _logger.error(f"Failed to generate XML for order {order.id}: {e}")
