@@ -1,13 +1,11 @@
 {
-    "name":"Inventory IMP AD",
-    "description": "Add imf 7 and 4 field to item transfers",
-    "depends":["stock"],
-    "data":[
+    "name": "Inventory IMP Add",
+    "description": "Add Customs_ID  field to item transfers and delivery reports",
+    "depends": ["stock"],
+    "data": [
         "views/moveView.xml",
         "reports/inventory_report_extend.xml"
     ],
-    'demo': [],
-    'license': 'LGPL-3',
-    'installable': True,
-    'auto_install': False,
+    "author": "Dagem Alemayehu",
+    'website': 'mailto:dagemalemayehu123@gmail.com',
 }

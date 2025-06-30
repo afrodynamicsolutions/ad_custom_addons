@@ -3,13 +3,71 @@
     <template inherit_id="stock.report_picking" id="inventory_imp_extend">
         <xpath expr="//table/thead/tr" position="inside">
             <th name="th_imp_tax">
-                External Ref.
+                Customs Id
             </th>
 
         </xpath>
         <xpath expr="//table/tbody/tr" position="inside">
-            <td t-esc="ml.move_id.customs_id" string="External Ref"/>
+            <td t-esc="ml.move_id.customs_id"/>
 
         </xpath>
+        <xpath expr="//div[hasclass('page')]" position="after">
+                <div class="container" style="page-break-inside: avoid">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>Prepared By</h5>
+                                    <br/>
+                                    <br/>
+                                    <p>Signature: ____________________________</p>
+                                    <p>Date: ____________________________</p>
+                                    <p>Name: ____________________________</p>
+                                </div>
+                                <div class="w-50"/>
+                                <div>
+                                    <h5>Authorized By</h5>
+                                    <br/>
+                                    <br/>
+                                    <p>Signature: ____________________________</p>
+                                    <p>Date: ____________________________</p>
+                                    <p>Sign: ____________________________</p>
+                                </div>
+                            </div>
+                        </div>
+            </xpath>
+    </template>
+    <template inherit_id="stock.report_delivery_document" id="inventory_imp_extend_delivery">
+        <xpath expr="//table/thead/tr" position="inside">
+            <th name="th_imp_tax">
+                Customs Id
+            </th>
+
+        </xpath>
+        <xpath expr="//table/tbody/tr" position="inside">
+            <td t-esc="move.customs_id"/>
+
+        </xpath>
+        <xpath expr="//div[hasclass('page')]" position="after">
+                <div class="container" style="page-break-inside: avoid">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>Prepared By</h5>
+                                    <br/>
+                                    <br/>
+                                    <p>Signature: ____________________________</p>
+                                    <p>Date: ____________________________</p>
+                                    <p>Name: ____________________________</p>
+                                </div>
+                                <div class="w-50"/>
+                                <div>
+                                    <h5>Authorized By</h5>
+                                    <br/>
+                                    <br/>
+                                    <p>Signature: ____________________________</p>
+                                    <p>Date: ____________________________</p>
+                                    <p>Sign: ____________________________</p>
+                                </div>
+                            </div>
+                        </div>
+            </xpath>
     </template>
 </odoo>
