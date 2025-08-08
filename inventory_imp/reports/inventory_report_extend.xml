@@ -18,10 +18,10 @@
 
         </xpath>
         <xpath expr="//table/tbody/tr/td[1]" position="before">
-            <td >
+            <td>
                 <span t-esc="counter"/>
             </td>
-           <t t-set="counter" t-value="counter + 1"/>
+            <t t-set="counter" t-value="counter + 1"/>
         </xpath>
         <xpath expr="//table/thead/tr/th[@name='th_serial_number']" position="replace"/>
 
@@ -33,28 +33,49 @@
 
         </xpath>
         <xpath expr="//div[hasclass('page')]" position="after">
-                <div class="container" style="page-break-inside: avoid">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h5>Prepared By</h5>
-                                    <br/>
-                                    <br/>
-                                    <p>Signature: ____________________________</p>
-                                    <p>Date: ____________________________</p>
-                                    <p>Name: ____________________________</p>
-                                </div>
-                                <div class="w-50"/>
-                                <div>
-                                    <h5>Authorized By</h5>
-                                    <br/>
-                                    <br/>
-                                    <p>Signature: ____________________________</p>
-                                    <p>Date: ____________________________</p>
-                                    <p>Sign: ____________________________</p>
-                                </div>
-                            </div>
-                        </div>
-            </xpath>
+            <div class="container" style="page-break-inside: avoid">
+                <div class="container-fluid d-flex flex-row">
+                    <div class="me-5">
+                        <h5>Prepared By</h5>
+                        <br/>
+                        <br/>
+                        <p>Signature: ____________________________</p>
+                        <p>Date: ____________________________</p>
+                        <p>Name: ____________________________</p>
+                    </div>
+                    <div class="me-5">
+                        <h5>Received By</h5>
+                        <br/>
+                        <br/>
+                        <p>Signature: ____________________________</p>
+                        <p>Date: ____________________________</p>
+                        <p>Name: ____________________________</p>
+                    </div>
+
+                    <div class="me-5">
+                        <h5>Authorized By</h5>
+                        <br/>
+                        <br/>
+                        <p>Signature: ____________________________</p>
+                        <p>Date: ____________________________</p>
+                        <p>Name: ____________________________</p>
+                    </div>
+                </div>
+               <t t-if="o.picking_type_id.code == 'internal'">
+                    <br/>
+                <div class="container mt-5">
+                    <div>
+                        <h5>Outgoing Custom</h5>
+                        <br/>
+                        <br/>
+                        <p>Signature: ____________________________</p>
+                        <p>Date: ____________________________</p>
+                        <p>Name: ____________________________</p>
+                    </div>
+                </div>
+                </t>
+            </div>
+        </xpath>
     </template>
     <template inherit_id="stock.report_delivery_document" id="inventory_imp_extend_delivery">
         <xpath expr="//table[@name='stock_move_table']/thead/tr" position="inside">
@@ -70,7 +91,7 @@
             </th>
         </xpath>
         <xpath expr="//table[@name='stock_move_table']/tbody" position="before">
-              <t t-set="counter" t-value="1"/>
+            <t t-set="counter" t-value="1"/>
         </xpath>
         <xpath expr="//table[@name='stock_move_table']/tbody/tr/td[1]" position="before">
             <td>
@@ -84,28 +105,51 @@
         </xpath>
 
         <xpath expr="//div[hasclass('page')]" position="after">
-                <div class="container" style="page-break-inside: avoid">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h5>Prepared By</h5>
-                                    <br/>
-                                    <br/>
-                                    <p>Signature: ____________________________</p>
-                                    <p>Date: ____________________________</p>
-                                    <p>Name: ____________________________</p>
-                                </div>
-                                <div class="w-50"/>
-                                <div>
-                                    <h5>Authorized By</h5>
-                                    <br/>
-                                    <br/>
-                                    <p>Signature: ____________________________</p>
-                                    <p>Date: ____________________________</p>
-                                    <p>Sign: ____________________________</p>
-                                </div>
-                            </div>
-                        </div>
-            </xpath>
+            <div class="container-fluid m-0" style="page-break-inside: avoid">
+
+                <div class="container-fluid d-flex flex-row">
+                    <div class="me-5">
+                        <h5>Prepared By</h5>
+                        <br/>
+                        <br/>
+                        <p>Signature: ____________________________</p>
+                        <p>Date: ____________________________</p>
+                        <p>Name: ____________________________</p>
+                    </div>
+                    <div class="me-5">
+                        <h5>Received By</h5>
+                        <br/>
+                        <br/>
+                        <p>Signature: ____________________________</p>
+                        <p>Date: ____________________________</p>
+                        <p>Name: ____________________________</p>
+
+                    </div>
+
+                    <div class="me-5">
+                        <h5>Authorized By</h5>
+                        <br/>
+                        <br/>
+                        <p>Signature: ____________________________</p>
+                        <p>Date: ____________________________</p>
+                        <p>Name: ____________________________</p>
+                    </div>
+                </div>
+                <t t-if="o.picking_type_id.code == 'internal'">
+                    <br/>
+                <div class="container mt-5">
+                    <div>
+                        <h5>Outgoing Custom</h5>
+                        <br/>
+                        <br/>
+                        <p>Signature: ____________________________</p>
+                        <p>Date: ____________________________</p>
+                        <p>Name: ____________________________</p>
+                    </div>
+                </div>
+                </t>
+            </div>
+        </xpath>
 
     </template>
 </odoo>
